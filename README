@@ -1,0 +1,84 @@
+Web1.0MPC - a web based MPD (Music Player Daemon) client for small screens
+
+
+1. Disclaimer
+
+This software is work in progress. It might contain serious bugs that could
+replace every single song of your 10,000 song collection with a Lady Gaga song.
+Do not install it on a public server! You have been warned...
+
+
+2. Credits
+
+Thanks to the MPD creators:
+
+- http://www.musicpd.org/
+- http://mpd.wikia.com/
+
+Web1.0MPC uses GNOME Icons from gnome-icon-theme-2.22.0.tar.bz2:
+
+- ftp://ftp.gnome.org/mirror/gnome.org/desktop/2.22/2.22.0/sources/
+- http://art.gnome.org/
+
+
+3. License
+
+GPLv2 or later.
+
+
+4. Description
+
+4.1 Sort artists by "ArtistSort" tag (experimental)
+
+Setting USE_ARTISTSORT_TAG to TRUE in Config.php will sort artists like this:
+Pearl Jam --> Tom Petty --> Pink Floyd --> The Police --> Porcupine Tree. Please
+note the following before you enable this:
+
+- Add "ArtistSort" tags to all songs. Create a consistent mapping, i.e. avoid
+  something like this:
+           Artist                    ArtistSort
+  Song 1:  Bob Marley & The Wailers  Marley, Bob & The Wailers
+  Song 2:  Bob Marley & The Wailers  Marley, Bob & Wailers, The
+  This does not make sense, and Web1.0MPC will throw an MpdDatabaseException.
+- MPD must read the "artistsort" tag, by default it does not. Add it to the line
+  starting with "metadata_to_use" in your mpd.conf file.
+- Restart MPD.
+- Update the MPD database.
+- Web1.0MPC will scan the complete database to create the mapping of artist
+  names to sort keys. This may take some time (~3.9s on an Atom N270 @ 1600 MHz
+  for a database with ~650 artists and ~10,400 songs, MPD and Web1.0MPC running
+  on the same machine (no network transfer)). It will do this only once and
+  cache the results in a file. The cache file will be deleted (and recreated on
+  the next request) when you press "Update database" on "Setup" page.
+
+
+5. Requirements
+
+Development system:
+
+- Debian Jessie
+- MPD 0.19.1
+- lighttpd 1.4.35
+- PHP 5.6.2
+
+Might work with less, but not tested.
+
+
+6. Installation
+
+- extract the files to a directory on your webserver
+- edit ./class/Web10Mpc/Config.php
+- check and adjust file and directory permissions, the ./cache directory needs
+  to be writable by the webserver
+
+
+7. History
+
+TODO.
+
+
+8. Contact / Bugs
+
+http://web10mpc.geuecke.org
+
+e-mail: web10mpc [at] geuecke [dot] org
