@@ -27,9 +27,9 @@ namespace Web10Mpc\Mpd;
 /**
  * A class to connect and talk to MPD (Music Player Daemon).
  *
- * Created along with Web1.0MPC (a web based remote control for MPD) to replace
- * the original mpd.class.php by B. Carlisle. Now extracted as a separate
- * project for general use.
+ * Created along with Web1.0MPC (a web based MPD client for small screens) to
+ * replace the original mpd.class.php by B. Carlisle. Now extracted as a
+ * separate project for general use.
  *
  * Plans for a full-fledged OO approach were dumped. After all, this is PHP, so
  * let's keep it simple. Features:
@@ -40,12 +40,12 @@ namespace Web10Mpc\Mpd;
  * - return results as values and associative arrays of various dimensions
  * - throw some exceptions if something goes wrong
  *
- * Most of the MPD commands up to version 0.18 are supported, except for
+ * Most of the MPD commands up to version 0.19 are supported, except for
  * commands that require keeping the socket open ("idle", "noidle", Client to
  * client).
  */
 class Mpd {
-	const CLASS_VERSION = '0.1b1';
+	const CLASS_VERSION = '0.1b2';
 	const MPD_OK = 'OK';
 	const MPD_ACK = 'ACK ';
 
@@ -84,6 +84,7 @@ class Mpd {
 		'single'                => MpdCommandResultType::Ack,
 		'replay_gain_mode'      => MpdCommandResultType::Ack,
 		'replay_gain_status'    => MpdCommandResultType::Value,
+		'volume'                => MpdCommandResultType::Ack,
 		// Controlling playback:
 		'next'                  => MpdCommandResultType::Ack,
 		'pause'                 => MpdCommandResultType::Ack,
@@ -97,7 +98,9 @@ class Mpd {
 		// The current playlist:
 		'add'                   => MpdCommandResultType::Ack,
 		'addid'                 => MpdCommandResultType::Value,
+		'addtagid'              => MpdCommandResultType::Ack,
 		'clear'                 => MpdCommandResultType::Ack,
+		'cleartagid'            => MpdCommandResultType::Ack,
 		'delete'                => MpdCommandResultType::Ack,
 		'deleteid'              => MpdCommandResultType::Ack,
 		'move'                  => MpdCommandResultType::Ack,
@@ -111,6 +114,7 @@ class Mpd {
 		'plchangesposid'        => MpdCommandResultType::Special,
 		'prio'                  => MpdCommandResultType::Ack,
 		'prioid'                => MpdCommandResultType::Ack,
+		'rangeid'               => MpdCommandResultType::Ack,
 		'shuffle'               => MpdCommandResultType::Ack,
 		'swap'                  => MpdCommandResultType::Ack,
 		'swapid'                => MpdCommandResultType::Ack,
@@ -133,6 +137,7 @@ class Mpd {
 		'list'                  => MpdCommandResultType::Arr,
 		'listall'               => MpdCommandResultType::Multi,
 		'listallinfo'           => MpdCommandResultType::Multi,
+		'listfiles'             => MpdCommandResultType::Special,
 		'lsinfo'                => MpdCommandResultType::Multi,
 		'readcomments'          => MpdCommandResultType::Assoc,
 		'search'                => MpdCommandResultType::Files,
@@ -140,6 +145,11 @@ class Mpd {
 		'searchaddpl'           => MpdCommandResultType::Ack,
 		'update'                => MpdCommandResultType::Value,
 		'rescan'                => MpdCommandResultType::Value,
+		//Mounts and neighbors:
+		'mount'                 => MpdCommandResultType::Ack,
+		'unmount'               => MpdCommandResultType::Ack,
+		'listmounts'            => MpdCommandResultType::Special,
+		'listneighbors'         => MpdCommandResultType::Special,
 		// Stickers:
 		'sticker get'           => MpdCommandResultType::Stickers,
 		'sticker set'           => MpdCommandResultType::Ack,
@@ -730,6 +740,125 @@ class Mpd {
 	}
 
 	/**
+	 * Special parsing function for response of "listfiles" command.
+	 *
+	 * @param string[] $lines The lines of the raw MPD response.
+	 * @return array The parsed result of the MPD command sent.
+	 */
+	private function parse_listfiles(array $lines) {
+		$result = array('directories' => array(), 'files' => array());
+		$counter = array('directories' => -1, 'files' => -1);
+		$currentArray = 'none';
+
+		foreach ($lines as $line) {
+			list($key, $value) = explode(': ', $line, 2);
+
+			if ($key == 'directory') {
+				$currentArray = 'directories';
+			}
+
+			if ($key == 'file') {
+				$currentArray = 'files';
+			}
+
+			if (($key == 'directory') || ($key == 'file')) {
+				$counter[$currentArray]++;
+			}
+
+			if ($currentArray != 'none') {
+				if ($counter[$currentArray] > -1) {
+					$result[$currentArray][$counter[$currentArray]][$key] = $value;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Special parsing function for response of "listmounts" command.
+	 *
+	 * @param string[] $lines The lines of the raw MPD response.
+	 * @return array The parsed result of the MPD command sent.
+	 */
+	private function parse_listmounts(array $lines) {
+		$result = array();
+		$counter = -1;
+
+		foreach ($lines as $line) {
+			list($key, $value) = explode(': ', $line, 2);
+
+			if ($key == 'mount') {
+				$counter ++;
+			}
+
+			if ($counter > -1) {
+				$result[$counter][$key] = $value;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Special parsing function for response of "listneighbors" command.
+	 *
+	 * @param string[] $lines The lines of the raw MPD response.
+	 * @return array The parsed result of the MPD command sent.
+	 */
+	private function parse_listneighbors(array $lines) {
+		$result = array();
+		$counter = -1;
+
+		foreach ($lines as $line) {
+			list($key, $value) = explode(': ', $line, 2);
+
+			if ($key == 'neighbor') {
+				$counter ++;
+			}
+
+			if ($counter > -1) {
+				$result[$counter][$key] = $value;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Special parsing function for response of "sticker find" command.
+	 *
+	 * @param string[] $lines The lines of the raw MPD response.
+	 * @return array The parsed result of the MPD command sent.
+	 */
+	private function parse_sticker_find(array $lines) {
+		$result = array();
+		$counter = -1;
+
+		foreach ($lines as $line) {
+			list($key, $value) = explode(': ', $line, 2);
+
+			if ($key == 'file') {
+				$counter ++;
+			}
+
+			if ($counter > -1) {
+				switch ($key) {
+					case 'file':
+						$result[$counter][$key] = $value;
+						break;
+					case 'sticker':
+						list($stickerKey, $stickerValue) = explode('=', $value, 2);
+						$result[$counter][$key] = array($stickerKey => $stickerValue);
+						break;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Special parsing function for response of "outputs" command.
 	 *
 	 * @param string[] $lines The lines of the raw MPD response.
@@ -783,39 +912,6 @@ class Mpd {
 						break;
 					case 'mime_type':
 						$result[$counter]['mime_types'][] = $value;
-						break;
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Special parsing function for response of "sticker find" command.
-	 *
-	 * @param string[] $lines The lines of the raw MPD response.
-	 * @return array The parsed result of the MPD command sent.
-	 */
-	private function parse_sticker_find(array $lines) {
-		$result = array();
-		$counter = -1;
-
-		foreach ($lines as $line) {
-			list($key, $value) = explode(': ', $line, 2);
-
-			if ($key == 'file') {
-				$counter ++;
-			}
-
-			if ($counter > -1) {
-				switch ($key) {
-					case 'file':
-						$result[$counter][$key] = $value;
-						break;
-					case 'sticker':
-						list($stickerKey, $stickerValue) = explode('=', $value, 2);
-						$result[$counter][$key] = array($stickerKey => $stickerValue);
 						break;
 				}
 			}
