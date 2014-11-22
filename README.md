@@ -10,7 +10,7 @@ Thanks to the MPD creators:
 * [Music Player Daemon Community Wiki](http://mpd.wikia.com/)
 
 GNOME Icons from
-[gnome-icon-theme-2.22.0.tar.bz2](ftp://ftp.gnome.org/mirror/gnome.org/desktop/2.22/2.22.0/sources/).
+[gnome-icon-theme-2.22.0.tar.bz2](http://ftp.gnome.org/mirror/gnome.org/desktop/2.22/2.22.0/sources/).
 
 ## License
 
