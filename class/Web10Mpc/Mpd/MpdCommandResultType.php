@@ -37,23 +37,27 @@ final class MpdCommandResultType {
 	/** A single value. */
 	const Value = 4;
 	/** A list of values. */
-	const Arr = 5;
+	const ValueList = 5;
 	/** A list of (key,value) pairs. */
 	const Assoc = 6;
+	/** Lists of (key,value) pairs, separated by the 1st element of the MPD
+	 * response.
+	 */
+	const AssocList = 7;
 	/** A list of files (songs) with attributes. */
-	const Files = 7;
+	const Files = 8;
 	/** Lists of directories, files and playlists. */
-	const Multi = 8;
+	const Multi = 9;
 	/**
 	 * A list of stickers ((key,value) pairs, requires different parsing, i.e.
 	 * cannot use type Assoc).
 	 */
-	const Stickers = 9;
+	const Stickers = 10;
 	/**
-	 * Special handling for "plchangesposid", "listplaylists", "outputs",
-	 * "decoders", "sticker find".
+	 * Special handling for "plchangesposid", "listplaylists", "listfiles",
+	 * "listmounts", "listneighbors", "sticker find", "outputs", "decoders".
 	 */
-	const Special = 10;
+	const Special = 11;
 
 	/**
 	 * Enumeration class, prevent instance creation by making constructor

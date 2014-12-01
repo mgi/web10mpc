@@ -29,10 +29,7 @@ namespace Web10Mpc\Mpd;
  *
  * Created along with Web1.0MPC (a web based MPD client for small screens) to
  * replace the original mpd.class.php by B. Carlisle. Now extracted as a
- * separate project for general use.
- *
- * Plans for a full-fledged OO approach were dumped. After all, this is PHP, so
- * let's keep it simple. Features:
+ * separate project for general use. Features:
  *
  * - connect to MPD
  * - send commands and arguments
@@ -45,7 +42,7 @@ namespace Web10Mpc\Mpd;
  * client).
  */
 class Mpd {
-	const CLASS_VERSION = '0.1b2';
+	const CLASS_VERSION = '0.1b3';
 	const MPD_OK = 'OK';
 	const MPD_ACK = 'ACK ';
 
@@ -105,7 +102,7 @@ class Mpd {
 		'deleteid'              => MpdCommandResultType::Ack,
 		'move'                  => MpdCommandResultType::Ack,
 		'moveid'                => MpdCommandResultType::Ack,
-		'playlist'              => MpdCommandResultType::Arr,
+		'playlist'              => MpdCommandResultType::ValueList,
 		'playlistfind'          => MpdCommandResultType::Files,
 		'playlistid'            => MpdCommandResultType::Files,
 		'playlistinfo'          => MpdCommandResultType::Files,
@@ -119,7 +116,7 @@ class Mpd {
 		'swap'                  => MpdCommandResultType::Ack,
 		'swapid'                => MpdCommandResultType::Ack,
 		// Stored playlists:
-		'listplaylist'          => MpdCommandResultType::Arr,
+		'listplaylist'          => MpdCommandResultType::ValueList,
 		'listplaylistinfo'      => MpdCommandResultType::Files,
 		'listplaylists'         => MpdCommandResultType::Special,
 		'load'                  => MpdCommandResultType::Ack,
@@ -131,10 +128,10 @@ class Mpd {
 		'rm'                    => MpdCommandResultType::Ack,
 		'save'                  => MpdCommandResultType::Ack,
 		// The music database:
-		'count'                 => MpdCommandResultType::Assoc,
+		'count'                 => MpdCommandResultType::AssocList,
 		'find'                  => MpdCommandResultType::Files,
 		'findadd'               => MpdCommandResultType::Ack,
-		'list'                  => MpdCommandResultType::Arr,
+		'list'                  => MpdCommandResultType::AssocList,
 		'listall'               => MpdCommandResultType::Multi,
 		'listallinfo'           => MpdCommandResultType::Multi,
 		'listfiles'             => MpdCommandResultType::Special,
@@ -168,10 +165,10 @@ class Mpd {
 		'outputs'               => MpdCommandResultType::Special,
 		// Reflection:
 		'config'                => MpdCommandResultType::Unsupported,
-		'commands'              => MpdCommandResultType::Arr,
-		'notcommands'           => MpdCommandResultType::Arr,
-		'tagtypes'              => MpdCommandResultType::Arr,
-		'urlhandlers'           => MpdCommandResultType::Arr,
+		'commands'              => MpdCommandResultType::ValueList,
+		'notcommands'           => MpdCommandResultType::ValueList,
+		'tagtypes'              => MpdCommandResultType::ValueList,
+		'urlhandlers'           => MpdCommandResultType::ValueList,
 		'decoders'              => MpdCommandResultType::Special,
 		// Client to client:
 		'subscribe'             => MpdCommandResultType::Unsupported,
@@ -597,7 +594,7 @@ class Mpd {
 				list($key, $value) = explode(': ', $lines[0], 2);
 				return $value;
 				break;
-			case MpdCommandResultType::Arr:
+			case MpdCommandResultType::ValueList:
 				$result = array();
 
 				foreach ($lines as $line) {
@@ -613,6 +610,29 @@ class Mpd {
 				foreach ($lines as $line) {
 					list($key, $value) = explode(': ', $line, 2);
 					$result[$key] = $value;
+				}
+
+				return $result;
+				break;
+			case MpdCommandResultType::AssocList:
+				$result = array();
+				$counter = -1;
+				$sep = '';
+
+				foreach ($lines as $line) {
+					list($key, $value) = explode(': ', $line, 2);
+
+					if ($counter == -1) {
+						$sep = $key;
+					}
+
+					if ($key == $sep) {
+						$counter ++;
+					}
+
+					if ($counter > -1) {
+						$result[$counter][$key] = $value;
+					}
 				}
 
 				return $result;
