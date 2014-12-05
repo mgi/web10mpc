@@ -27,16 +27,17 @@ class MpdHelper {
 	}
 
 	public function getArtists($useArtistSortTag = FALSE) {
-		$artists = $this->mpd->executeCommand('list', 'Artist');
-		$result = array();
-
 		if ($useArtistSortTag) {
 			// Use "ArtistSort" tag, redirect function call.
 			$result = $this->getArtistsEx();
 		} else {
 			// Do not use "ArtistSort" tag, map artist name to itself.
+			$artists = $this->mpd->executeCommand('list', 'Artist');
+			$result = array();
+
 			foreach ($artists as $artist) {
-				$result[] = array('Artist' => $artist, 'ArtistSort' => $artist);
+				$result[] = array('Artist' => $artist['Artist'],
+				                  'ArtistSort' => $artist['Artist']);
 			}
 
 			usort($result, array($this, 'sortArtistsByName'));
@@ -62,7 +63,7 @@ class MpdHelper {
 		// Get all albums for each artist and check if some of the albums are not in
 		// the compilations list.
 		foreach ($artists as $artist) {
-			$albums = $this->getAlbumsByArtist($artist);
+			$albums = $this->getAlbumsByArtist($artist['Artist']);
 			$compilationOnly = TRUE;
 
 			foreach ($albums as $album) {
@@ -78,7 +79,7 @@ class MpdHelper {
 			if ($compilationOnly) {
 				// This artist only appears on compilations. Add the artist to the
 				// result array.
-				$result[] = $artist;
+				$result[] = $artist['Artist'];
 			}
 		}
 
@@ -196,17 +197,18 @@ class MpdHelper {
 
 		//Get all songs for each artist.
 		foreach ($artists as $artist) {
-			$songs = $this->mpd->executeCommand('find', 'Artist', $artist);
+			$songs = $this->mpd->executeCommand('find', 'Artist', $artist['Artist']);
 
 			// Use "ArtistSort" tag of the first song in the list. Default to "Artist"
 			// tag if "ArtistSort" tag is missing.
 			if (isset($songs[0]['ArtistSort'])) {
 				$mapping = array(
-					'Artist' => $artist,
+					'Artist' => $artist['Artist'],
 					'ArtistSort' => $songs[0]['ArtistSort']
 				);
 			} else {
-				$mapping = array('Artist' => $artist, 'ArtistSort' => $artist);
+				$mapping = array('Artist' => $artist['Artist'],
+				                 'ArtistSort' => $artist['Artist']);
 			}
 
 			// Check for consistency.
@@ -216,8 +218,8 @@ class MpdHelper {
 				}
 
 				if ($song['ArtistSort'] != $mapping['ArtistSort']) {
-					$msg = 'Artist "' . $artist . '" has songs with different values '
-					     . 'for the "ArtistSort" tag.';
+					$msg = 'Artist "' . $artist['Artist'] . '" has songs with different '
+					     . 'values for the "ArtistSort" tag.';
 					throw new Mpd\MpdDatabaseException($msg);
 				}
 			}
