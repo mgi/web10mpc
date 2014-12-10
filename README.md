@@ -108,9 +108,11 @@ Tested browsers:
 ### Installation
 
 * Extract the files to a directory on your webserver.
+* Check and adjust file and directory permissions:
+  * the ./cache directory needs to be writable by the webserver, and
+  * if you want to display cover art, your music directory needs to be readable
+    by the webserver.
 * Edit ./class/Web10Mpc/Config.php.
-* Check and adjust file and directory permissions, the ./cache directory needs
-  to be writable by the webserver.
 
 ### Sort artists by "ArtistSort" tag
 
