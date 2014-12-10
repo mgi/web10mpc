@@ -28,7 +28,7 @@
 <? endif; ?>
 </div> <!-- info -->
 
-<? if (!$_['stopped']): ?>
+<? if (!$_['stopped'] && $_['coverPath']): ?>
 <div id="cover">
 	<img class="cover" src="<?=$_['coverPath']?>" alt="cover">
 </div> <!-- cover -->

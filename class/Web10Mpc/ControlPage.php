@@ -184,13 +184,12 @@ class ControlPage extends AbstractPage {
 			         . $pathInfo['dirname'] . '/'
 			         . CONFIG::COVER_NAME;
 
-			// If cover image does not exist or is not readable: use dummy image.
-			if (!file_exists($tmpPath) || !is_readable($tmpPath)) {
-				$tmpPath = $tplPath . '/images/no-cover.jpg';
+			// If cover image exists and is readable: make its thumbnail.
+			if (file_exists($tmpPath) && is_readable($tmpPath)) {
+				$_['coverPath'] = $this->thumbsCache->getThumbnail($tmpPath);
+			} else {
+				$_['coverPath'] = '';
 			}
-
-			// Create thumbnail and set path to thumbnail.
-			$_['coverPath'] = $this->thumbsCache->getThumbnail($tmpPath);
 		} else {
 			$_['title'] = '';
 			$_['position'] = 0;
