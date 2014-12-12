@@ -27,6 +27,7 @@ div#navigation {
 border-bottom: 2px solid #a1a1a1;
 padding: 14px 0px 2px 0px;
 text-align: center;
+white-space: nowrap;
 }
 
 div#controls {
