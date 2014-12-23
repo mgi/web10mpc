@@ -95,7 +95,10 @@ Development system:
 * lighttpd 1.4.35
 * PHP 5.6.2 with php5-cgi, php5-gd and ```short_open_tag = On```
 
-Should work with less, but not tested.
+MPD >= 0.19 is a requirement because of the new grouping feature of MPD's "list"
+command which Web1.0MPC makes use of.
+
+As for the web server and PHP, it should work with less, but is not tested.
 
 Tested browsers:
 
