@@ -19,7 +19,7 @@
 namespace Web10Mpc;
 
 class Config {
-	const VERSION = '0.4a9pre';
+	const VERSION = '0.4a9';
 
 	const HOSTNAME = 'localhost';
 	const PORT = 6600;
