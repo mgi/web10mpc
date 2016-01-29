@@ -115,10 +115,10 @@ class PlaylistSavePage extends AbstractPage {
 			$_['playlists'][] = $playlist;
 		}
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/PlaylistSave.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/PlaylistSave.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 
 	protected function savePlaylist($name, $overwrite = FALSE) {

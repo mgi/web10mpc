@@ -130,10 +130,10 @@ class BrowseArtistPage extends AbstractPage {
 			$_['albums'][] = $album;
 		}
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/BrowseArtist.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/BrowseArtist.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

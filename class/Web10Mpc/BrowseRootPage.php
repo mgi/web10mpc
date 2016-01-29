@@ -81,10 +81,10 @@ class BrowseRootPage extends AbstractPage {
 		$_['ranges'][8]['name'] = 'Y - Z';
 		$_['ranges'][9]['name'] = '0 - 9 and others';
 		$_['ranges'][10]['name'] = 'Various artists';
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/BrowseRoot.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/BrowseRoot.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

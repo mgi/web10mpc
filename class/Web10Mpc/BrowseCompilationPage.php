@@ -125,10 +125,10 @@ class BrowseCompilationPage extends AbstractPage {
 			$_['songs'][] = $song;
 		}
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/BrowseCompilation.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/BrowseCompilation.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

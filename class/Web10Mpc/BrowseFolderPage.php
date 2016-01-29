@@ -161,10 +161,10 @@ class BrowseFolderPage extends AbstractPage {
 			$_['files'][] = $file;
 		}
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/BrowseFolder.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/BrowseFolder.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

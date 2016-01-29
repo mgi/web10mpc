@@ -230,10 +230,10 @@ class SetupPage extends AbstractPage {
 		$_['version'] = Config::VERSION;
 		$_['mpdProtocolVersion'] = $this->mpd->getProtocolVersion();
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/Setup.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/Setup.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

@@ -137,10 +137,10 @@ class BrowseArtistRangePage extends AbstractPage {
 			}
 		}
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/BrowseArtistRange.tpl.php');
-		include($tplPath . '/Footer.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/BrowseArtistRange.tpl.php');
+		include('./templates/common/Footer.tpl.php');
 	}
 }
 ?>

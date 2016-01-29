@@ -202,10 +202,10 @@ class ControlPage extends AbstractPage {
 		$_['reloadUrl'] = $_SERVER['PHP_SELF'] . '?cat=control';
 		$_['reloadTimeout'] = Config::RELOAD_TIMEOUT;
 
-		include($tplPath . '/Header.tpl.php');
-		include($tplPath . '/Navigation.tpl.php');
-		include($tplPath . '/Control.tpl.php');
-		include($tplPath . '/ControlFooter.tpl.php');
+		include('./templates/common/Header.tpl.php');
+		include('./templates/common/Navigation.tpl.php');
+		include('./templates/common/Control.tpl.php');
+		include('./templates/common/ControlFooter.tpl.php');
 	}
 
 	protected function Seek($action) {
