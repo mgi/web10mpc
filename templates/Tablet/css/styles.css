@@ -158,11 +158,11 @@ td.right2 {
 }
 
 td.settings_left {
-    width: 240px;
+    width: 30%;
 }
 
 td.settings_right {
-    width: 120px;
+    width: 60%;
 }
 
 td.stats_left {
