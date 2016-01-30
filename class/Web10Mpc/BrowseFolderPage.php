@@ -124,7 +124,7 @@ class BrowseFolderPage extends AbstractPage {
 					Utils\Utils::shortenStringUTF8(substr($item['directory'], $pos + 1), $maxlen);
 			}
 
-			$directory['name'] = htmlspecialchars('[ ' . $directoryName . ' ]');
+			$directory['name'] = htmlspecialchars($directoryName);
 			$directory['openUrl'] = $_SERVER['PHP_SELF'] . '?cat=browse'
 			                      . '&amp;page=folder'
 			                      . '&amp;uid=' . $_SESSION['uid']
