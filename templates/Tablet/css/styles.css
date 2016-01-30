@@ -1,0 +1,200 @@
+/* Web1.0MPC - 800x600 version */
+
+/* body */
+
+body {
+background-color: #f5f5f5;
+color: #555753;
+font-family: arial, helvetica, sans-serif;
+font-size: 20px;
+margin: 0px;
+padding: 0px;
+}
+
+/* divs */
+
+div {
+margin: 0px;
+padding: 0px;
+}
+
+div#main {
+width: 600px;
+margin-bottom: 5px;
+}
+
+div#navigation {
+border-bottom: 2px solid #a1a1a1;
+padding: 14px 0px 2px 0px;
+text-align: center;
+white-space: nowrap;
+}
+
+div#controls {
+padding: 10px 0px 0px 0px;
+text-align: center;
+}
+
+div#volume {
+padding: 10px 0px 10px 0px;
+text-align: center;
+}
+
+div#info {
+text-align: center;
+}
+
+div#cover {
+padding: 10px 0px 0px 0px;
+text-align: center;
+}
+
+div#header {
+background-color: #a1a1a1;
+font-size: 14px;
+padding: 2px 0px 2px 0px;
+text-align: center;
+}
+
+/* p and span */
+
+p {
+margin: 0px;
+padding: 5px;
+}
+
+p.small {
+font-size: 14px;
+}
+
+p.small_centered {
+font-size: 14px;
+text-align: center;
+}
+
+span.small {
+font-size: 14px;
+}
+
+/* links */
+
+a {
+color: #555753;
+text-decoration: none;
+}
+
+a.navigation {
+border: 2px solid #a1a1a1;
+border-bottom: 0px;
+color: #555753;
+margin: 0px 0px 0px 0px;
+padding: 2px 4px 2px 4px;
+text-decoration: none;
+}
+
+a.navigation_active {
+background-color: #5578a4;
+border: 2px solid #a1a1a1;
+border-bottom: 0px;
+color: #ffffff;
+margin: 0px 0px 0px 0px;
+padding: 2px 4px 2px 4px;
+text-decoration: none;
+}
+
+/* images */
+
+img {
+border: 0px;
+}
+
+img.cover {
+border: 2px solid #a1a1a1;
+}
+
+img.middle {
+vertical-align: middle;
+}
+
+/* table stuff */
+
+table {
+border: 0px;
+border-collapse: collapse;
+margin: 0px;
+padding: 0px;
+width: 100%;
+}
+
+tr {
+margin: 0px;
+padding: 0px;
+}
+
+tr.dark {
+background-color: #e4e4e4;
+}
+
+tr.playing {
+background-color: #5578a4;
+}
+
+td {
+height: 48px;
+margin: 0px;
+padding: 0px 5px 0px 5px;
+}
+
+td.right1 {
+text-align: right;
+width: 32px;
+}
+
+td.right2 {
+text-align: right;
+width: 64px;
+}
+
+td.settings_left {
+width: 240px;
+}
+
+td.settings_right {
+width: 120px;
+}
+
+td.stats_left {
+font-size: 14px;
+height: 24px;
+width: 100px;
+}
+
+td.stats_right {
+font-size: 14px;
+height: 24px;
+width: 260px;
+}
+
+td.spacer {
+height: 8px;
+}
+
+/* forms */
+
+select {
+color: #555753;
+width: 110px;
+font-size: 20px;
+}
+
+input.button {
+color: #555753;
+width: 110px;
+font-size: 20px;
+}
+
+input.textfield {
+color: #555753;
+width: 220px;
+font-size: 20px;
+}

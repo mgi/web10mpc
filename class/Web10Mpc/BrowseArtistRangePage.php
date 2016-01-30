@@ -106,8 +106,7 @@ class BrowseArtistRangePage extends AbstractPage {
 		$coa = array();
 
 		if (!Config::SHOW_COMPILATION_ONLY_ARTISTS) {
-			$coa = $this->mpdHelper->getCompilationOnlyArtists(
-				Config::COMPILATIONS_VALUE);
+			$coa = $this->mpdHelper->getCompilationOnlyArtists(Config::COMPILATIONS_VALUE);
 		}
 
 		$count = 0;

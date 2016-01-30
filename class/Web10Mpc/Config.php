@@ -46,6 +46,11 @@ class Config {
 			'path' => './templates/360x640',
 			'maxCoverWidth' => 320,
 			'maxCoverHeight' => 280
+		),
+		'Tablet' => array(
+			'path' => './templates/Tablet',
+			'maxCoverWidth' => 320,
+			'maxCoverHeight' => 280
 		)
 	);
 }
