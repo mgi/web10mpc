@@ -1,4 +1,4 @@
-/* Web1.0MPC - 800x600 version */
+/* Web1.0MPC - Tablet version */
 
 /* body */
 
@@ -19,8 +19,10 @@ padding: 0px;
 }
 
 div#main {
-width: 600px;
-margin-bottom: 5px;
+    width: 1000px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div#navigation {
