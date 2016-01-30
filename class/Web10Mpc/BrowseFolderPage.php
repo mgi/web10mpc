@@ -105,16 +105,23 @@ class BrowseFolderPage extends AbstractPage {
 		$_['directories'] = array();
 		$_['files'] = array();
 
+		// Choose shortening with layout
+		if ($tplPath = "Tablet") {
+			$maxlen = 80;
+		} else {
+			$maxlen = 25;
+		}
+
 		foreach ($dirContent['directories'] as $item) {
 			$count ++;
 			$directory = array();
 			$pos = strrpos($item['directory'], '/');
 
 			if ($pos == FALSE) {
-				$directoryName = Utils\Utils::shortenStringUTF8($item['directory']);
+				$directoryName = Utils\Utils::shortenStringUTF8($item['directory'], $maxlen);
 			} else {
 				$directoryName =
-					Utils\Utils::shortenStringUTF8(substr($item['directory'], $pos + 1));
+					Utils\Utils::shortenStringUTF8(substr($item['directory'], $pos + 1), $maxlen);
 			}
 
 			$directory['name'] = htmlspecialchars('[ ' . $directoryName . ' ]');
