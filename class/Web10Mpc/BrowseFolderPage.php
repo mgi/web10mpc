@@ -107,9 +107,11 @@ class BrowseFolderPage extends AbstractPage {
 
 		// Choose shortening with layout
 		if ($tplPath = "Tablet") {
-			$maxlen = 80;
+			$maxlen_dir = 80;
+			$maxlen_file = 80;
 		} else {
-			$maxlen = 25;
+			$maxlen_dir = 25;
+			$maxlen_file = 35;
 		}
 
 		foreach ($dirContent['directories'] as $item) {
@@ -118,10 +120,10 @@ class BrowseFolderPage extends AbstractPage {
 			$pos = strrpos($item['directory'], '/');
 
 			if ($pos == FALSE) {
-				$directoryName = Utils\Utils::shortenStringUTF8($item['directory'], $maxlen);
+				$directoryName = Utils\Utils::shortenStringUTF8($item['directory'], $maxlen_dir);
 			} else {
 				$directoryName =
-					Utils\Utils::shortenStringUTF8(substr($item['directory'], $pos + 1), $maxlen);
+					Utils\Utils::shortenStringUTF8(substr($item['directory'], $pos + 1), $maxlen_dir);
 			}
 
 			$directory['name'] = htmlspecialchars($directoryName);
@@ -148,7 +150,7 @@ class BrowseFolderPage extends AbstractPage {
 			$file = array();
 			$pathInfo = pathinfo($item['file']);
 			$file['name'] =
-				htmlspecialchars(Utils\Utils::shortenStringUTF8($pathInfo['basename'], 35));
+				htmlspecialchars(Utils\Utils::shortenStringUTF8($pathInfo['basename'], $maxlen_file));
 			$file['time'] = Utils\Utils::formatTimeShort($item['Time']);
 			$file['addUrl'] = $_SERVER['PHP_SELF'] . '?cat=browse'
 			                . '&amp;page=folder'
