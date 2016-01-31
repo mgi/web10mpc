@@ -543,6 +543,7 @@ class Mpd {
 
 		while (!feof($this->socket) && $continue) {
 			$line = fgets($this->socket);
+			$line = str_replace('"', '', $line);
 
 			if (strncmp(self::MPD_OK, $line, strlen(self::MPD_OK)) == 0) {
 				$continue = FALSE;
